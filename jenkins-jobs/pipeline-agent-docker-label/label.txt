@@ -1,0 +1,15 @@
+pipeline {
+    agent {
+        docker { 
+			image 'maven:3.5.3-jdk-10-slim'
+            label 'Slave 1'
+        }
+    }
+    stages {
+        stage('Build') {
+            steps {
+                sh 'mvn -v'
+            }
+        }
+    }
+}

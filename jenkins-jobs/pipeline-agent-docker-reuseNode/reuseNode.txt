@@ -1,0 +1,32 @@
+pipeline {
+    agent {
+        label 'Slave 1'
+    }
+
+    stages {
+        stage('Build') {
+            agent {
+                docker { 
+                    image 'maven:3.5.3-jdk-10-slim'
+                    label 'Slave 2'
+                }
+            } 
+            steps {
+                sh 'mvn -v'
+            }
+        }
+        stage('Deploy') {
+            agent {
+                docker { 
+                    image 'ubuntu:16.04'
+                    reuseNode true
+                }
+            }
+            steps {
+                sh 'printenv'
+            }
+        }        
+    }
+    
+
+}
