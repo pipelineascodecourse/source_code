@@ -1,0 +1,159 @@
+Always/success/failure
+---------------------
+pipeline{
+    agent any
+    stages{
+        stage('Build'){
+            steps{
+                    echo "building"
+                    //error("Build failed")
+            }
+        }
+    }
+    post{
+		//Only runs if the current Pipeline’s or stage’s run has a "success" status
+		success{
+			echo 'post->success is called'
+		}
+		//Only runs if the current Pipeline’s or stage’s run has a "failed" status
+		failure { 
+            echo 'post->failure is called'
+        }
+		//Runs regardless of the completion status of the Pipeline’s or stage’s run.
+        always { 
+            echo 'post->always is called'
+        }
+    }
+}
+
+changed 
+-------------
+pipeline{
+    agent any
+    stages{
+        stage('Build'){
+            steps{
+                    echo "building"					
+					//script{
+					//	currentBuild.result = 'UNSTABLE'
+					//}
+            }
+        }
+    }
+    post{
+		//Only runs if the current Pipeline’s or stage’s run has a different completion status from its previous run.
+        changed { 
+            echo 'post->changed is called'
+        }
+    }
+}
+
+unstable
+---------
+using example from above
+
+
+		//Only run the steps in post if the current Pipeline’s or stage’s run has an "unstable" status, usually caused by test failures, code violations, etc. 
+		unstable { 
+            echo 'post->unstable is called'
+        }
+
+
+
+
+fixed
+------
+pipeline{
+    agent any
+    stages{
+        stage('Build'){
+            steps{
+                    echo "building"
+            }
+        }
+    }
+    post{
+		//Only runs if the current Pipeline’s or stage’s run is successful and the previous run failed or was unstable.
+		fixed { 
+            echo 'post->fixed is called'
+        }
+    }
+}
+
+
+regression
+-----------
+pipeline{
+    agent any
+    stages{
+        stage('Build'){
+            steps{
+                    echo "building"
+					error("Build failed")
+            }
+        }
+    }
+    post{
+		//Only runs if the current Pipeline’s or stage’s status is failure, unstable, or aborted and the previous run was successful.
+		regression { 
+            echo 'post->regression is called'
+        }
+    }
+}
+
+aborted
+-------
+
+pipeline{
+    agent any
+    stages{
+        stage('Build'){
+            steps{
+                    echo "building"
+					script{
+						currentBuild.result = 'ABORTED'
+					}
+            }
+        }
+    }
+    post{
+		//Only runs if the current Pipeline’s or stage’s run has an "aborted" status, usually due to the Pipeline being manually aborted. 
+		aborted { 
+            echo 'post->aborted is called'
+        }
+    }
+}
+
+
+
+cleanup
+--------
+pipeline{
+    agent any
+    stages{
+        stage('Build'){
+            steps{
+                    echo "building"
+                    //error("Build failed")
+            }
+        }
+    }
+    post{
+		//Only runs if the current Pipeline’s or stage’s run has a "success" status, typically denoted by blue or green in the web UI.
+		success{
+			echo 'post->success is called'
+		}
+		//Only runs if the current Pipeline’s or stage’s run has a "failed" status, typically denoted by red in the web UI.
+		failure { 
+            echo 'post->failure is called'
+        }
+		//Runs regardless of the completion status of the Pipeline’s or stage’s run.
+        always { 
+            echo 'post->always is called'
+        }
+		//Runs after every other post condition has been evaluated, regardless of the status of Pipeline or stage
+		cleanup{
+			echo 'post->cleanup is called'
+		}
+    }
+}
