@@ -1,0 +1,3 @@
+@Library("pipeline-shared-lib") _
+
+execBuildOrDeploy("build")

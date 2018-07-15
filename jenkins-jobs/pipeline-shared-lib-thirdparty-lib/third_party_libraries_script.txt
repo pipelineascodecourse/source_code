@@ -1,0 +1,16 @@
+@Grab('org.apache.commons:commons-lang3:3.7')
+import org.apache.commons.lang3.StringUtils
+
+pipeline {
+    agent any
+    stages{
+        stage('Build'){
+            steps{
+                echo StringUtils.upperCase("hello world")
+            }         
+        }
+    }
+   
+}
+
+

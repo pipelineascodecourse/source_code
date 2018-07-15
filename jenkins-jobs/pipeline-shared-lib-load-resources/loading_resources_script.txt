@@ -1,0 +1,15 @@
+@Library("pipeline-shared-lib") _
+
+pipeline {
+    agent any
+    stages{
+        stage('Build'){
+            steps{			
+                script{
+                    def request = libraryResource 'com/acceleratedskillup/request.json'
+                    echo request
+                }
+            }         
+        }
+    }
+}
