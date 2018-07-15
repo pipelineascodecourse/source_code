@@ -1,0 +1,26 @@
+pipeline {
+    agent none
+    stages {
+        stage('Checkout') {
+            agent any
+            steps {                
+                checkout([$class: 'GitSCM', 
+				branches: [[name: "origin/master"]], 
+				userRemoteConfigs: [[
+                url: 'https://github.com/pipelineascodecourse/pipeline-agent-dockerfile.git']]
+				])
+            }
+        }        
+        stage('dockerfile'){            
+            agent { 
+                dockerfile {
+                    additionalBuildArgs '--tag mydockerfile:example'
+                } 
+            }            
+            steps{
+				sh 'cat /etc/lsb-release'
+            }
+        }
+    }
+}
+
