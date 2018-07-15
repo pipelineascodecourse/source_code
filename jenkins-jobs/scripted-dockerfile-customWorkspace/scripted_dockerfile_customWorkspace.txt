@@ -1,0 +1,20 @@
+node {
+	stage('Build'){
+	
+		ws('/var/lib/jenkins/workspace/scripted-dockerfile-customWorkspace/checkout-directory'){
+	
+			checkout([$class: 'GitSCM', 
+				branches: [[name: "origin/master"]], 
+				userRemoteConfigs: [[
+                url: 'https://github.com/pipelineascodecourse/pipeline-agent-dockerfile.git']]				
+				])
+	
+			def myUbuntuImage = docker.build("my-ubuntu:my-latest")
+				
+			myUbuntuImage.inside{ 
+				sh 'cat /etc/lsb-release'
+			}
+		}
+    }
+}
+

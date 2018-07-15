@@ -1,0 +1,38 @@
+-------------------
+example 1
+-------------------
+node{
+	stage('Build'){	
+		retry(3){
+			error "Error statement just got executed"
+		}
+	}
+}
+
+-------------------
+example 2
+-------------------
+node{
+	retry(3){
+		stage('Build'){		
+			error "Error statement just got executed"
+		}
+	}
+}
+
+-------------------
+example 3
+-------------------
+retry(3){
+	node{
+		error "Error statement just got executed"
+	}
+}
+
+
+
+
+
+
+
+

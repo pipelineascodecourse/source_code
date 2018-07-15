@@ -1,0 +1,41 @@
+-------------------
+example 1
+-------------------
+node{
+	stage('Build'){	
+	
+		//values: NANOSECONDS, MICROSECONDS, MILLISECONDS, SECONDS, MINUTES, HOURS, DAYS
+		timeout(time: 1, unit: 'SECONDS')  {
+			//sleeping for 2 seconds
+			sleep 2
+		}
+	}
+}
+
+-------------------
+example 2
+-------------------
+node{
+	timeout(time: 1, unit: 'SECONDS')  {
+		stage('Build'){		
+			sleep 2
+		}
+	}
+}
+
+-------------------
+example 3
+-------------------
+timeout(time: 1, unit: 'SECONDS')  {
+	node{
+		sleep 2
+	}
+}
+
+
+
+
+
+
+
+
