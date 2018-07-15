@@ -1,0 +1,12 @@
+node{
+	properties(
+		[
+			disableConcurrentBuilds()
+		]
+	)
+	
+	stage('Build'){
+		sleep(time: 10, unit: 'SECONDS') 	
+                echo 'Hello World'	
+	}
+}

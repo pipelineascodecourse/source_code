@@ -1,0 +1,12 @@
+node{
+	ws("/var/lib/jenkins/workspace/scripted-checkoutToSubDirectory/someSubDir") {
+		checkout([$class: 'GitSCM',
+					branches: [[name: "origin/master"]], 
+					userRemoteConfigs: [[
+					url: 'https://github.com/pipelineascodecourse/scripted-checkoutToSubdirectory.git']]
+					])
+		stage('Build'){
+			echo 'Hello World 1'
+		}
+	}
+}

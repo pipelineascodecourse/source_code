@@ -1,0 +1,12 @@
+node{	
+	stage('Build'){	
+		echo "setting current build to unstable"	
+        currentBuild.result = 'UNSTABLE'	
+    }	
+	
+	if(currentBuild.result != 'UNSTABLE'){
+		stage('Deploy'){	
+			echo "deploy is running"	
+		}
+	}
+}
