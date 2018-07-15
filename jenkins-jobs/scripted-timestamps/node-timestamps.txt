@@ -1,0 +1,28 @@
+-------------------
+node level timestamp
+-------------------
+node{
+	timestamps {
+		stage('Build'){
+			echo 'Build stage echo statement printed out with timestamp'
+		}		
+		stage('Deploy'){
+			echo 'Deploy stage echo statement printed out with timestamp'
+		}		
+	}
+}
+
+-------------------
+stage level timestamp
+-------------------
+node{
+	stage('Build'){
+		timestamps {
+			echo 'echo statement printed out WITH timestamp'
+		}		
+	}
+	
+	stage('Deploy'){
+		echo 'echo statement printed out WITHOUT timestamp'
+	}
+}
