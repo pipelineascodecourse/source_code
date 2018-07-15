@@ -1,0 +1,14 @@
+node {			
+	stage('Build') {			
+		echo 'scripted-upstream-job1 executed'			
+	}			
+}
+
+-------------
+
+node {			
+	stage('Build') {			
+		currentBuild.result='UNSTABLE'				
+	}			
+}
+

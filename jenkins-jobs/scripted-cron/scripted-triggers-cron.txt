@@ -1,0 +1,22 @@
+node{	
+	properties(
+		[
+			pipelineTriggers(
+				[
+					//minute, hour, day of month, month, and day of week (0 and 7 are sundays)
+					cron('0 1 2 3 1-7')
+					
+					//cron('H */2 1-3 1,3 2-4')
+					
+					//@yearly, @annually, @monthly, @weekly, @daily, @midnight, @hourly
+					//cron('@daily')
+					
+					//cron('TZ=Europe/London\n0 1 * * 1-7')										
+				]
+			),
+		]
+	)
+	stage('Build'){	
+        echo 'Hello World'		
+    }	
+}
