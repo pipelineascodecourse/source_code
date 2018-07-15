@@ -1,0 +1,57 @@
+----------------
+basic node
+----------------
+node{
+    echo 'this is scripted pipeline'
+}
+
+
+----------------
+basic node with stages
+----------------
+
+node{
+    
+    stage('Build')
+    {
+        echo 'this is scripted pipeline with stage'
+    }
+}
+
+----------------
+basic node->stage->node
+-----------------
+node{
+	stage('Build')
+	{
+		node {
+			echo 'this is node in stage'
+		}
+	}
+}
+
+----------------
+no node - just stages
+----------------
+stage('Build')
+{
+	echo 'this is scripted pipeline with stage Build'
+}
+	
+stage('Deploy')
+{
+	echo 'this is scripted pipeline with stage Deploy'
+}	
+
+----------------
+specify slaves
+----------------
+node('master'){
+    
+    node('Slave 1'){
+		stage('Build')
+		{
+			echo 'this is node in stage Slave 1'
+		}
+    }
+}
