@@ -1,0 +1,15 @@
+node{
+	properties(
+		[
+			buildDiscarder(
+				logRotator(
+					numToKeepStr: '1'
+				)
+			)
+		]
+	)
+	
+	stage('Build'){
+		echo 'Hello World'
+	}
+}

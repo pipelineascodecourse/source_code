@@ -1,0 +1,157 @@
+------------
+example 1
+------------
+node {
+    try {
+        stage('Build') {
+            script{
+				currentBuild.result = 'SUCCESS' //SUCCESS, ABORTED, UNSTABLE, or FAILURE
+			}
+        }
+    }
+	catch(err)
+	{
+		//does nothing here
+	}
+	finally {
+	
+		def currentResult = currentBuild.result
+		//this section is always
+		echo "always() code is executed"
+
+		//changed
+		if(currentBuild.previousBuild != null){
+			def previousResult = currentBuild.previousBuild.result
+			if (previousResult != null && previousResult != currentResult) {
+				echo 'changed() code is executed'
+			}
+		}
+
+		//fixed
+		if(currentBuild.previousBuild != null){
+			def previousResult = currentBuild.previousBuild.result
+			if (previousResult != null && ( previousResult == 'FAILURE' 
+				|| currentResult == 'UNSTABLE' ) 
+				&& currentResult=='SUCCESS') {
+				echo 'fixed() code is executed'
+			}
+		}
+				
+		//regression
+		if(currentBuild.previousBuild != null){
+			def previousResult = currentBuild.previousBuild.result
+			if (previousResult != null && ( currentResult == 'FAILURE' 
+				|| currentResult == 'UNSTABLE' 
+				|| currentResult == 'ABORTED') 
+				&& previousResult=='SUCCESS') {
+				echo 'regression() code is executed'
+			}
+		}		
+		
+		//aborted
+        if (currentResult == 'ABORTED') {
+            echo 'aborted() code is executed'
+        }
+		
+		//failure        
+        if (currentResult == 'FAILURE') {
+            echo 'failure() code is executed'
+        }
+
+	    //unstable
+
+        if (currentResult == 'SUCCESS') {
+            echo 'success() code is executed'
+        }		
+		
+	    //unstable
+        if (currentResult == 'UNSTABLE') {
+            echo 'unstable() code is executed'
+        }
+		
+		//cleanup
+		echo "cleanup() code is executed"
+    }
+}
+
+------------
+example 2
+------------
+
+node {
+
+    stage('Build') {
+		try {
+			script{
+				currentBuild.result = 'SUCCESS' //ABORTED, SUCCESS, UNSTABLE, or FAILURE
+			}
+        }
+		catch(err)
+		{
+			//does nothing here
+		}
+		finally {
+		
+			def currentResult = currentBuild.result
+			//this section is always
+			echo "always() code is executed"
+
+			//changed
+			if(currentBuild.previousBuild != null){
+				def previousResult = currentBuild.previousBuild.result
+				if (previousResult != null && previousResult != currentResult) {
+					echo 'changed() code is executed'
+				}
+			}
+
+			//fixed
+			if(currentBuild.previousBuild != null){
+				def previousResult = currentBuild.previousBuild.result
+				if (previousResult != null && ( previousResult == 'FAILURE' 
+					|| currentResult == 'UNSTABLE' ) 
+					&& currentResult=='SUCCESS') {
+					echo 'fixed() code is executed'
+				}
+			}
+					
+			//regression
+			if(currentBuild.previousBuild != null){
+				def previousResult = currentBuild.previousBuild.result
+				if (previousResult != null && ( currentResult == 'FAILURE' 
+					|| currentResult == 'UNSTABLE' 
+					|| currentResult == 'ABORTED') 
+					&& previousResult=='SUCCESS') {
+					echo 'regression() code is executed'
+				}
+			}		
+			
+			//aborted
+			if (currentResult == 'ABORTED') {
+				echo 'aborted() code is executed'
+			}
+			
+			//failure        
+			if (currentResult == 'FAILURE') {
+				echo 'failure() code is executed'
+			}
+
+			//unstable
+
+			if (currentResult == 'SUCCESS') {
+				echo 'success() code is executed'
+			}		
+			
+			//unstable
+			if (currentResult == 'UNSTABLE') {
+				echo 'unstable() code is executed'
+			}
+			
+			//cleanup
+			echo "cleanup() code is executed"
+		}
+	}
+	
+	stage('Deploy') {
+		echo 'This is Deploy stage'
+	}
+}

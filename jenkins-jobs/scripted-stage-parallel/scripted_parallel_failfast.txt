@@ -1,0 +1,37 @@
+----------------
+parallel example
+----------------
+node{
+	stage('Running in Parallel') {
+		parallel 'Parallel1': {
+			echo "Parallel1 executing"
+			sleep 10
+		},
+		'Parallel2': {
+			echo "Parallel2 executing"
+			sleep 10
+		},
+		'Parallel3': {
+			echo "Parallel3 executing"
+			sleep 10
+		},
+		failFast : true
+	}
+}
+----------------
+sequential example
+----------------
+node {
+	stage('Stage1') {
+		echo "Stage1 executing"
+		sleep 10
+	}
+	stage('Stage2') {
+		echo "Stage2 executing"
+		sleep 10
+	}
+	stage('Stage3') {
+		echo "Stage3 executing"
+		sleep 10
+	}
+}
