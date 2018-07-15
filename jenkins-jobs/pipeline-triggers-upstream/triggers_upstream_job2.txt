@@ -1,0 +1,12 @@
+pipeline {			
+    agent any
+    stages {			
+        stage('Build') {			
+            steps {			
+                echo 'pipeline-triggers-upstream-job2 executed'			
+            }			
+        }			
+    }			
+}			
+
+

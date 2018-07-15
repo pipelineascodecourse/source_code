@@ -1,0 +1,24 @@
+pipeline {			
+    agent any
+    stages {			
+        stage('Build') {			
+            steps {			
+                echo 'pipeline-triggers-upstream-job1 executed'			
+            }			
+        }			
+    }			
+}			
+
+
+pipeline {			
+    agent any
+    stages {			
+        stage('Build') {			
+            steps {			
+				script{
+					currentBuild.result='UNSTABLE'				
+                }
+            }			
+        }			
+    }			
+}			
