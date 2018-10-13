@@ -1,0 +1,33 @@
+node{	
+	stage('Build'){
+		//first shell step
+		def shellOutput = sh(script: "ls -al",								
+							returnStdout: true
+						).trim()
+		echo "this is shellOutput: ${shellOutput}"
+		
+		//second shell step
+		def shellReturnStatus = sh(script: "ls -al",
+							returnStatus: true
+						)
+		echo "this is shellReturnStatus: ${shellReturnStatus}"
+
+		//third shell step
+		shellReturnStatus = sh(script: "exit 1",
+							returnStatus: true
+						)
+		echo "this is shellReturnStatus: ${shellReturnStatus}"
+
+//  		if(shellReturnStatus == 1)
+//  			currentBuild.result = 'FAILURE'
+		
+		//fourth shell step		
+		//using both returnStdout and returnStatus
+		def returnValue = sh(script: "ls -al",
+							returnStdout: true,
+							returnStatus: true							
+						)
+		echo "this is returnValue: ${returnValue}"
+
+	}
+}

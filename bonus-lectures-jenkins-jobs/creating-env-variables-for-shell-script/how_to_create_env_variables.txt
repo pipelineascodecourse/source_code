@@ -1,0 +1,19 @@
+node{	
+	stage('Build'){
+		env.ENV_VAR1 = 'JOHN'
+		def NOT_ENV_VAR1 = 'SMITH'
+		
+		sh 'echo ENV_VAR1 : $ENV_VAR1'
+		echo "NOT_ENV_VAR1 : ${NOT_ENV_VAR1}"
+		sh 'echo NOT_ENV_VAR1 : $NOT_ENV_VAR1'
+				
+		withEnv(['ENV_VAR2=Groovy', 'MVN_VERSION=mvn --version']) {
+			sh 'echo ENV_VAR2 : $ENV_VAR2'
+			sh '$MVN_VERSION'
+			sh 'printenv'
+		}
+		
+		sh 'echo ENV_VAR2 : $ENV_VAR2' //should show nothing
+		sh 'echo MVN_VERSION : $MVN_VERSION' //should show nothing
+	}
+}
