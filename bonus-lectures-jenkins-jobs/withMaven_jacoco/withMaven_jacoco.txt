@@ -1,0 +1,30 @@
+----example 1----
+node{
+  stage ('Build') {
+	cleanWs()
+    git url: 'https://github.com/pipelineascodecourse/simple_java_project_with_jacoco.git'
+
+    withMaven(maven: 'maven3_5_2',
+	options: [junitPublisher(disabled: false), artifactsPublisher(disabled: false)]) {
+      sh "mvn clean install"
+    }
+  }
+}
+
+----example 2----
+node{
+  stage ('Build') {
+	cleanWs()
+    git url: 'https://github.com/pipelineascodecourse/simple_java_project_with_jacoco.git'
+
+    withMaven(
+        maven: 'maven3_5_2',
+		options: [junitPublisher(disabled: false), artifactsPublisher(disabled: false), jacocoPublisher(disabled: true)]
+		) {
+		sh "mvn clean install"
+
+		jacoco buildOverBuild: true,changeBuildStatus: true, deltaBranchCoverage: '40', deltaClassCoverage: '40', deltaComplexityCoverage: '40', deltaInstructionCoverage: '40', deltaLineCoverage: '40', deltaMethodCoverage: '40', maximumMethodCoverage: '75', minimumMethodCoverage: '50'
+	  
+    }
+  }
+}

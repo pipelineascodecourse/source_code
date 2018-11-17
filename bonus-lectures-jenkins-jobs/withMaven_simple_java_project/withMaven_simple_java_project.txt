@@ -1,0 +1,138 @@
+(withMaven - 1st example)
+-------------------------
+
+node{
+  stage ('Build') {
+	cleanWs()
+    git url: 'https://github.com/pipelineascodecourse/simple_java_project'
+
+    withMaven(maven: 'maven3_0_5') {
+      sh "mvn clean install"
+    }
+  }
+}
+
+(change of maven version example - 2nd example)
+-----------------------------------------------
+node{
+  stage ('Build') {
+	cleanWs()
+    git url: 'https://github.com/pipelineascodecourse/simple_java_project'
+
+    withMaven(maven: 'maven3_5_2') {
+      sh "mvn clean install"
+    }
+  }
+}
+
+(mavenLocalRepo - 3rd example)
+-------------------------------
+node{
+  stage ('Build') {
+	cleanWs()
+    git url: 'https://github.com/pipelineascodecourse/simple_java_project'
+
+    withMaven(        
+        maven: 'maven3_5_2',
+        mavenLocalRepo: '/var/lib/jenkins/local_maven_repo') {
+
+		sh "mvn -X clean install"
+    } 
+  }
+}
+
+(mavenSettingsConfig - 4th example)
+------------------------------------
+node{
+  stage ('Build') {
+	cleanWs()
+    git url: 'https://github.com/pipelineascodecourse/simple_java_project'
+
+    withMaven(
+        maven: 'maven3_5_2',
+        mavenSettingsConfig: '') {
+            
+      sh "mvn -X clean install"
+
+    } 
+  }
+}
+
+(mavenSettingsFilePath - 5th example)
+------------------------------------
+node{
+  stage ('Build') {
+	cleanWs()
+    git url: 'https://github.com/pipelineascodecourse/simple_java_project'
+
+    withMaven(
+        maven: 'maven3_5_2',
+        mavenSettingsFilePath: '/opt/apache-maven-3.0.5/conf/settings.xml') {
+
+      sh "mvn -X clean install"
+
+    } 
+  }
+}
+
+(all 3 parameters specified - 6th Example)
+------------------------------------------
+//mavenSettingsConfig takes precedence over mavenSettingsFilePath
+node{
+  stage ('Build') {
+	cleanWs()
+    git url: 'https://github.com/pipelineascodecourse/simple_java_project'
+
+    withMaven(
+        maven: 'maven3_5_2',
+		mavenSettingsFilePath: '/opt/apache-maven-3.0.5/conf/settings.xml',
+        mavenSettingsConfig: '',
+		mavenLocalRepo: '/var/lib/jenkins/local_maven_repo') {
+
+      sh "mvn -X clean install"
+
+    } 
+  }
+}
+
+(using jdk)
+-----------
+node{
+  stage ('Build') {
+	cleanWs()
+    git url: 'https://github.com/pipelineascodecourse/simple_java_project'
+
+    withMaven(maven: 'maven3_5_2', jdk: 'java11') {
+      sh "mvn clean install"
+    }
+  }
+}
+(using mavenOpts)
+-----------------
+node{
+  stage ('Build') {
+	cleanWs()
+    git url: 'https://github.com/pipelineascodecourse/simple_java_project'
+
+    withMaven(maven: 'maven3_5_2', jdk: 'java11', mavenOpts: '-XX:+PrintCommandLineFlags -XX:+UseConcMarkSweepGC') {	  
+      sh "mvn clean install"
+    }
+  }
+}
+
+
+(using junitPublisher(disabled: true), artifactsPublisher(disabled: true))
+--------------------------------------------------------------------------
+node{
+  stage ('Build') {
+
+    git url: 'https://github.com/pipelineascodecourse/simple_java_project'
+
+    withMaven(
+        options: [junitPublisher(disabled: true), artifactsPublisher(disabled: true)],        
+        maven: 'maven3_5_2') {
+		
+      sh "mvn -X clean install"
+    } 
+  }
+}
