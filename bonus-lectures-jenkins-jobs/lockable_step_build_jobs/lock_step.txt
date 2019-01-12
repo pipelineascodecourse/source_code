@@ -1,0 +1,115 @@
+(single resource contention example)
+lock_step_resource_1a
+------------------------------
+timestamps{
+	node{
+	  stage ('Build') {
+			echo 'Before locking resource1'
+			lock('resource1') {
+			  echo 'After locking resource1'
+			  sleep 5
+			}
+			echo 'After lock block'
+		}
+	}
+}
+
+
+lock_step_resource_1b
+------------------------------
+timestamps{
+	node{
+	  stage ('Build') {
+			echo 'Before locking resource1'
+			lock('resource1') {
+			  echo 'After locking resource1'
+			}
+			echo 'After lock block'
+		}
+	}
+}
+
+(resource and label contention example)
+lock_step_resource_2
+------------------------------
+timestamps{
+	node{
+	  stage ('Build') {
+		echo 'Before locking resource2'
+		lock('resource2') {
+			  echo 'After locking resource2'
+			  sleep 5
+			}
+			echo 'After lock block'
+		}	
+	}
+}
+
+lock_step_resources_2_3
+------------------------------
+timestamps{
+	node{
+		stage ('Build') {
+			echo 'Before locking resources_2_3'
+			lock(label: 'resources_2_3') {
+				echo 'After locking resources_2_3'
+			}
+			echo 'After lock block'
+		}
+	}
+}
+
+
+(quantity parameter example)
+lock_step_resources_2_3
+------------------------------
+timestamps{
+	node{
+		stage ('Build') {
+			echo 'Before locking resources_2_3'
+			lock(label: 'resources_2_3', quantity: 1) {
+				echo 'After locking resources_2_3'
+			}
+			echo 'After lock block'
+		}
+	}
+}
+
+(inversePrecedence example)
+code is same for all 3 build jobs
+lock_step_resource_1a
+lock_step_resource_1b
+lock_step_resource_1c
+
+when inversePrecedence = false
+--------------------
+timestamps{
+	node{
+	  stage ('Build') {
+			echo 'Before locking resource1'
+			lock('resource1') {
+			  echo 'After locking resource1'
+			  sleep 5
+			}
+			echo 'After lock block'
+		}
+	}
+}
+
+
+when inversePrecedence = true
+--------------------
+(only for lock_step_resource_1a build job)
+timestamps{
+	node{
+	  stage ('Build') {
+			echo 'Before locking resource1'
+			lock(resource:'resource1', inversePrecedence: true) {
+			  echo 'After locking resource1'
+			  sleep 5
+			}
+			echo 'After lock block'
+		}
+	}
+}
+
