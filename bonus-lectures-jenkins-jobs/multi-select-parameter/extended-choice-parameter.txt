@@ -1,0 +1,39 @@
+import com.cwctravel.hudson.plugins.extended_choice_parameter.ExtendedChoiceParameterDefinition
+
+node() {
+properties([parameters([new ExtendedChoiceParameterDefinition(
+            "color_of_car", 
+            "PT_CHECKBOX", 
+            "red,blue,yellow,green", 
+            "",
+            "", 
+            "",
+            "", 
+            "", 
+            "", 
+            "", 
+            "", 
+            "", 
+            "", 
+            "", 
+            "", 
+            "", 
+            "", 
+            "redDesc,blueDesc,yellowDesc,greenDesc", 
+            "", 
+            "", 
+            "", 
+            "", 
+            "", 
+            "", 
+            "", 
+            "", 
+            false,
+            false, 
+            4, 
+            "multiCheckboxDesc", 
+            "-")])])
+   
+   echo "Selected ${params.color_of_car}"
+}
+
