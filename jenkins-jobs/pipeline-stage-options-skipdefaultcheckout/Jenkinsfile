@@ -2,7 +2,11 @@ pipeline{
     agent none
     stages{
         stage('build'){
-            agent any
+            agent{
+             node{
+              label 'master'
+              }
+             }
             /*options{
                 skipDefaultCheckout()
             }*/
