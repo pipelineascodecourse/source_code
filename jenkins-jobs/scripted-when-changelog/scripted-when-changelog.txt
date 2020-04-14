@@ -1,0 +1,42 @@
+node{
+	checkout([$class: 'GitSCM', 				
+						branches: [[name: "origin/master"]], 
+						userRemoteConfigs: [[
+						url: 'https://github.com/pipelineascodecourse/scripted-when-changelog.git']]
+						])
+
+	def changeLogFound = false
+	def changeLogSets = currentBuild.changeSets
+	println  "changeLogSets.size(): ${changeLogSets.size()}"
+	for (int i = 0; i < changeLogSets.size(); i++) {
+	
+		println changeLogSets[i].getClass().getName()		
+		def entries = changeLogSets[i].items
+		
+		for (int j = 0; j < entries.length; j++) {
+			def entry = entries[j]
+			println "${entry.msg}"
+			if(entry.msg =~ /.*some_text.*/){
+				changeLogFound = true
+				break;
+			}
+		}
+		
+		if(changeLogFound)
+			break
+	}
+	
+	changeLogSets = null
+	
+	if(changeLogFound){
+		stage('ChangeLogFound'){
+			echo 'Change log found'
+		}
+	}
+	else{
+		stage('ChangeLogNotFound'){
+			echo 'Change log not found'
+		}
+	}	
+}
+
