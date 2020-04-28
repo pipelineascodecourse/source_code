@@ -1,0 +1,22 @@
+pipeline{
+    agent any
+    stages{
+        stage('Master'){
+            when{
+                branch 'master'
+            }
+            steps{
+                echo "Hey it is Master branch"
+                
+            }
+        }
+        stage('Dev'){
+            when{
+                branch 'dev'
+            }
+            steps{
+                echo "Hey this is Dev Branch"
+            }
+        }
+    }
+}
