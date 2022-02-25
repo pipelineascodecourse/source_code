@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') {
 		    tools {
-				maven 'maven3_5_2' 
+				maven 'maven3_6_1' 
 				//maven 'maven3_0_5' 
 			}
             steps {

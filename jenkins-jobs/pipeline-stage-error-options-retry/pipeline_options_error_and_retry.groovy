@@ -1,5 +1,5 @@
-Positive example
-----------------
+// Positive example
+// ----------------
 pipeline{
     agent any
     stages{
@@ -16,8 +16,8 @@ pipeline{
     }
 }
 
-Negative example
-----------------
+// Negative example
+// ----------------
 pipeline{
     agent any
     stages{
